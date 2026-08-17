@@ -25,19 +25,31 @@ export function useIncidentQuery(
   }, []);
 
   useEffect(() => {
+    const controller = new AbortController();
+    let ownsResult = true;
+
     setState((current) => ({ ...current, error: null, status: "loading" }));
 
-    repository.search(filters).then(
-      (data) => setState({ data, error: null, status: "ready" }),
-      (error: unknown) =>
+    repository.search(filters, controller.signal).then(
+      (data) => {
+        if (!ownsResult) return;
+        setState({ data, error: null, status: "ready" });
+      },
+      (error: unknown) => {
+        if (!ownsResult || controller.signal.aborted) return;
         setState((current) => ({
           ...current,
           error: error instanceof Error ? error.message : "Unable to load incidents",
           status: "error",
-        })),
+        }));
+      },
     );
+
+    return () => {
+      ownsResult = false;
+      controller.abort();
+    };
   }, [filters, refreshKey, repository]);
 
   return { ...state, refresh };
 }
-
