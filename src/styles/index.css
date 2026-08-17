@@ -166,6 +166,11 @@ label {
   font-weight: 650;
 }
 
+.search-field {
+  display: grid;
+  gap: 7px;
+}
+
 input,
 select,
 textarea {
@@ -626,4 +631,3 @@ thead th {
     animation-iteration-count: 1 !important;
   }
 }
-

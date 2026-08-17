@@ -34,19 +34,21 @@ export function IncidentFilters({
       </div>
 
       <div className="filter-grid">
-        <label className="search-field">
-          <span>Search incidents</span>
+        <div className="search-field">
+          <label htmlFor="incident-search">Search incidents</label>
           <input
+            id="incident-search"
             ref={inputRef}
             type="search"
+            aria-describedby="incident-search-hint"
             value={filters.query}
             placeholder="Title, service, owner or tag"
             onChange={(event) =>
               onChange({ ...filters, query: event.currentTarget.value })
             }
           />
-          <small>Press / anywhere to focus search</small>
-        </label>
+          <small id="incident-search-hint">Press / anywhere to focus search</small>
+        </div>
 
         <label>
           <span>Status</span>
@@ -105,4 +107,3 @@ export function IncidentFilters({
     </section>
   );
 }
-
