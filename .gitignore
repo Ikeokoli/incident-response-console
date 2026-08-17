@@ -3,6 +3,6 @@ dist/
 coverage/
 .vite/
 *.log
+*.tsbuildinfo
 .DS_Store
 fix.patch
-
